@@ -5,11 +5,38 @@
 	<title>Title</title>
 </head>
 <body>
-	<textarea id="genericInput" name="genericInput"
-	          rows="5" cols="33">
-		add text here
-	</textarea>
-<button id="saveButton" name="saveButton"> save </button>
-<button id="loadButton" name="loadButton"> load </button>
+	<input id="genericInput" name="genericInput" />
+	<button id="saveButton" name="saveButton"> save </button>
+	<button id="loadButton" name="loadButton"> load </button>
 </body>
 </html>
+
+<script>
+
+    const saveButton = document.getElementById('saveButton');
+    const loadButton = document.getElementById('loadButton');
+    saveButton.addEventListener('click', async _ => {
+        let data = {data: document.getElementById('genericInput').value,
+	        timestamp:  new Date().toJSON()};
+        const response = await fetch('saveMinutes', {
+	        method: 'POST',
+	        body: JSON.stringify(data),
+	        headers:{
+	        'Content-Type': 'application/json'
+	        }
+    }).then(res => res.json())
+        .catch(error => console.error('Error:', error))
+        .then(response => console.log('Success:', response));
+    });
+    let tempData;
+    loadButton.addEventListener('click', async _ => {
+        const response = await fetch('loadMinutes', {
+	        method: 'GET'
+    }).then(res => res.json() )
+        .catch(error => console.error('Error:', error))
+            .then(response => document.getElementById('genericInput').setAttribute('value',response.result[0].minuteData));
+
+    })
+
+
+</script>
