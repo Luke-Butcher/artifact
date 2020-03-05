@@ -28,20 +28,26 @@ app.post("/saveMinutes", (req, res) => {
     res.send({success:"success"})
 });
 
-app.get("/loadMinutes", (req,res)=> {
+app.post("/loadSelectableMinutes", (req,res)=> {
+    let username = req.body.username + '%';
+
+    console.log(username)
     let db = openDB()
     let sql = `SELECT * FROM minutes
-           ORDER BY -minuteID 
-           LIMIT 1`;
+           WHERE userAccess LIKE (?)
+           ORDER BY -timestamp 
+           `;
 
-    db.all(sql, [], (err, result) => {
+    db.all(sql, [username], (err, result) => {
         if (err) {
             throw err;
         }
+        console.log(result)
         res.send({success:"success",result:result})
     });
     closeDB(db);
 });
+
 function openDB(){
 // open the database
     let db = new sqlite3.Database('./db/Database0.db', sqlite3.OPEN_READWRITE, (err) => {
