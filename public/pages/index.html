@@ -5,35 +5,99 @@
 	<title>Title</title>
 </head>
 <body>
-	<input id="genericInput" name="genericInput" />
-	<button id="saveButton" name="saveButton"> save </button>
-	<button id="loadButton" name="loadButton"> load </button>
+	<div id="page-mask"></div>
+	<form name="minuteForm" id="minuteForm" class="minuteForm" action="#" method="#">
+		<label for="dateTime" >dateTime</label>
+		<input name="dateTime" id="dateTime" >
+		<label for="location" >location</label>
+		<input name="location" id="location" >
+		<label for="attendees" >attendees</label>
+		<input name="attendees" id="attendees" >
+<!--		agenda items be an ordered list each containing the inputs for the item the notes  on it and the date it
+will be followed up on  also link it to action points -->
+<!--		add button for more agenda items-->
+<!--		addbutton for more action items-->
+		<label for="agendaItem" >agendaItem</label>
+		<input name="agendaItem" id="agendaItem" >
+		<label for="notes" >notes</label>
+		<input name="notes" id="notes" >
+		<label for="followupDate" >followupDate</label>
+		<input name="followupDate" id="followupDate" >
+		<label for="relatedActionPoint" >relatedActionPoint</label>
+		<input name="relatedActionPoint" id="relatedActionPoint" >
+		<label for="actionPoint" >actionPoint</label>
+		<input name="actionpoint" id="actionpoint" >
+		<label for="assignees" >assignees</label>
+		<input name="assignees" id="assignees" >
+		<label for="dueDate" >dueDate</label>
+		<input name="dueDate" id="dueDate" >
+		<button id="saveButton" name="saveButton"> save </button>
+		<button id="loadButton" name="loadButton"> load </button>
+	</form>
 
-	<!-- The Modal -->
-	<div id="loadModal" class="modal">
 
-		<!-- Modal content -->
-		<div class="modal-content">
+
+
+	<div id="loadModal" class="modal loadModal">
+		<div class="loadModal-content">
 			<div class="modal-header">
 				<h2>Select a minute to load</h2>
 			</div>
 			<div  class="modal-body">
-				<ul id="minuteList">
-
-				</ul>
-
+				<ul id="minuteList"></ul>
 			</div>
 		</div>
-
 	</div>
+<!--	vv i am for testing remove me eventualy vv-->
+	<button onclick="showModal(loginModal)">Login
+	</button>
+	<button onclick="showModal(signupModal)">Sign up
+		</button>
+<!--	^^ i am for testing remove me eventualy ^^-->
+		<div id="loginModal" class="modal">
+			<form class="loginModal-content animate" action="/login" method="post" name="loginForm" id="loginForm" >
+				<div class="container">
+					<label for="username"><b>Username</b></label>
+					<input type="text" placeholder="Enter Username" name="username" id="username"required>
 
+					<label for="password"><b>Password</b></label>
+					<input type="password" placeholder="Enter Password" name="password" id="password"required>
+					<button name="loginButton" id="loginButton" type="submit">Login</button>
+					<label>
+						<input type="checkbox" checked="checked" name="remember" id="remember"> Remember me
+					</label>
+				</div>
+
+				<div class="container">
+					<button type="button" onclick="closeModal(loginModal)">Cancel</button>
+<!--					<span class="password">Forgot <a href="#">password?</a></span>-->
+				</div>
+			</form>
+		</div>
+		<div id="signupModal" class="modal">
+			<form class="loginModal-content animate" action="/signup" method="post" name="signupForm" id="signupForm" >
+				<div class="container">
+					<label for="signupUsername"><b>Username</b></label>
+					<input type="text" placeholder="Enter Username" name="signupUsername" id="signupUsername"required>
+
+					<label for="signupPassword"><b>Password</b></label>
+					<input type="password" placeholder="Enter Password" name="signupPassword"
+					       id="signupPassword"required>
+					<button name="signupButton" id="signupButton" type="submit">signup</button>
+
+				</div>
+				<div class="container">
+					<button type="button" onclick="closeModal(signupModal)">Cancel</button>
+				</div>
+			</form>
+		</div>
 </body>
 </html>
-
 <style>
 	body {font-family: Arial, Helvetica, sans-serif;}
-
-	/* The Modal (background) */
+	.minuteForm{
+		display: grid;
+	}
 	.modal {
 		display: none;
 		position: fixed;
@@ -42,17 +106,21 @@
 		top: 0;
 		width: 100%;
 		height: 100%;
-		overflow: auto;
-		background-color: rgb(0,0,0);
-		background-color: rgba(0,0,0,0.4);
+	}
+	.loadModal {
 		-webkit-animation-name: fadeIn;
 		-webkit-animation-duration: 0.4s;
 		animation-name: fadeIn;
 		animation-duration: 0.4s
 	}
 
-	/* Modal Content */
-	.modal-content {
+	.loginModal-content {
+		background-color: #fefefe;
+		margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+		border: 1px solid #888;
+		width: 80%; /* Could be more or less, depending on screen size */
+	}
+	.loadModal-content {
 		position: fixed;
 		bottom: 0;
 		background-color: #fefefe;
@@ -62,16 +130,14 @@
 		animation-name: slideIn;
 		animation-duration: 0.4s
 	}
-
 	.modal-header {
 		padding: 2px 16px;
-		background-color: #5cb85c;
+		background-color: #b81c93;
 		color: white;
 	}
-
 	.modal-body {padding: 2px 16px;}
 
-	/* Add Animation */
+	/* Add  slide in animation */
 	@-webkit-keyframes slideIn {
 		from {bottom: -300px; opacity: 0}
 		to {bottom: 0; opacity: 1}
@@ -91,19 +157,80 @@
 		from {opacity: 0}
 		to {opacity: 1}
 	}
+
+	input[type=text], input[type=password] {
+		width: 100%;
+		padding: 12px 20px;
+		margin: 8px 0;
+		display: inline-block;
+		border: 1px solid #ccc;
+		box-sizing: border-box;
+	}
+
+	.container {
+		background-color:#f1f1f1;
+		padding: 16px;
+	}
+
+	span.password {
+		float: right;
+		padding-top: 16px;
+	}
+
+	/* Add Zoom Animation */
+	.animate {
+		-webkit-animation: animatezoom 0.6s;
+		animation: animatezoom 0.6s
+	}
+
+	@-webkit-keyframes animatezoom {
+		from {-webkit-transform: scale(0)}
+		to {-webkit-transform: scale(1)}
+	}
+
+	@keyframes animatezoom {
+		from {transform: scale(0)}
+		to {transform: scale(1)}
+	}
+
+	#page-mask {
+		display: none;
+		position: fixed;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		top: 0;
+		background-color: rgba(0,0,0,0.6);
+	}
+
+
+
 </style>
-
-
 <script>
-    const modal = document.getElementById("loadModal");
+    const loginModal = document.getElementById('loginModal');
+    const signupModal = document.getElementById('signupModal');
+    window.onload = function() {
+       if (sessionStorage.getItem("username") == null){
+			showModal(loginModal)
+       }
+    };
+    window.onclick = function(event) {
+        if (event.target === loadModal) {
+            closeLoadModal()
+        }};
+    const loadModal = document.getElementById("loadModal");
     const saveButton = document.getElementById('saveButton');
     const loadButton = document.getElementById('loadButton');
+    const loginForm = document.getElementById('loginForm');
+    const signupForm = document.getElementById('signupForm');
+    const minuteForm = document.getElementById('minuteForm');
     saveButton.addEventListener('click', async () => {
-        let data = {data: document.getElementById('genericInput').value,
-	        timestamp:  new Date().toJSON()};
+        let minuteFormData = new FormData(minuteForm);
+        minuteFormData.append('timestamp', new Date().toJSON());
+        let data = JSON.stringify(Object.fromEntries(minuteFormData));
         const response = await fetch('saveMinutes', {
 	        method: 'POST',
-	        body: JSON.stringify(data),
+	        body: data,
 	        headers:{
 	        'Content-Type': 'application/json'
 	        }
@@ -112,15 +239,72 @@
         .then(response => console.log('Success:', response));
     });
     loadButton.addEventListener('click', () => {
-        modal.style.display = "block";
+		showModal(loadModal);
         buildLoadModalOptions()
     });
+    loginForm.addEventListener('submit', async () => {
+        event.preventDefault();
+        let username = document.getElementById('username').value;
+        let password = document.getElementById('password').value;
+        let remember = document.getElementById('remember').checked;
+        let data = {username:username,password:password}
+        const response = await fetch('login', {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        }).then(res => res.json() )
+            .catch(error => console.error('Error:', error))
+            .then(response => {
+	            if (response.userExists === true){
+	                if (remember === true){
+                        window.localStorage.setItem('username', response.username);
+	                }else {
+                        window.sessionStorage.setItem('username', response.username);
+                    }
+                    //this needs better userfeed back so they know why it closed
+					alert("success!!");
+                    closeModal(loginModal)
+	            } else if (response.userExists === false ){
 
+                    //else tell them that is the wrong username or password
+					alert("incorrect username or password")
+                }
+	            //else tell them that is the wrong username or password
+                        })});
+    signupForm.addEventListener('submit', async () => {
+        event.preventDefault();
+        let username = document.getElementById('signupUsername').value;
+        let password = document.getElementById('signupPassword').value;
+        let createdOn = new Date().toJSON();
+        let data = {username:username,password:password,createdOn:createdOn}
+        const response = await fetch('signup', {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        }).then(res => res.json() )
+            .catch(error => console.error('Error:', error))
+            .then(response => {
+	            if (response.userExists === true){
+                    alert("Your username is not unique! please try again")
+
+	            } else if (response.userExists === false  ){
+                    window.sessionStorage.setItem('username', username);
+                    //this needs better userfeed back so they know why it closed
+                    alert("success!!");
+                    closeModal(signupModal)
+                } else if (response.error.length > 0){
+	                alert("sorry something went wrong")
+	            }
+	            //else tell them that is the wrong username or password
+                        })});
     async function buildLoadModalOptions() {
-        let username = {username:"admin"}; // test data replace once the login screen is built and working
         const response = await fetch('loadSelectableMinutes', {
             method: 'POST',
-            body: JSON.stringify(username),
+            body: JSON.stringify({username:sessionStorage.getItem("username")}),
             headers:{
                 'Content-Type': 'application/json'
             }
@@ -135,7 +319,6 @@
                     minuteList.appendChild(el);
         }
     })};
-
     function makeClickableListItem(date, data) {
         const node = document.createElement("LI");
         let textnode = document.createTextNode(date + "    " + data);
@@ -144,17 +327,23 @@
 	        closeLoadModal()});
         return node;
     }
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
-        if (event.target === modal) {
-            closeLoadModal()
-        }};
+    function showModal(modal) {
+        modal.style.display = 'block';
+        document.getElementById('page-mask').style.display = 'block';
+    }
+    function closeModal(modal){
+        modal.style.display = "none";
+        document.getElementById('page-mask').style.display='none';
 
- function closeLoadModal(){
-     modal.style.display = "none";
+    }
+    function closeLoadModal(){
+     closeModal(loadModal)
      let root = document.getElementById("minuteList");
      while( root.firstChild ){
          root.removeChild( root.firstChild );
      }
  }
+
 </script>
+
+

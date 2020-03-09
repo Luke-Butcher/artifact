@@ -48,6 +48,54 @@ app.post("/loadSelectableMinutes", (req,res)=> {
     closeDB(db);
 });
 
+app.post("/login", (req, res) => {
+    let username = req.body.username;
+    let password = req.body.password;
+
+    let db = openDB();
+    let sql = `SELECT * FROM users
+           WHERE username LIKE (?) AND password = (?)`;
+
+    db.all(sql, [username, password], (err, result) => {
+        if (err) {
+            throw err;
+        }
+        console.log(result);
+        if (result.length === 1){
+            res.send({userExists:true,username:username})
+        } else {
+            res.send({userExists:false})
+        }
+    });
+    closeDB(db);});
+app.post("/signup", (req, res) => {
+    let username = req.body.username;
+    let password = req.body.password;
+
+    let db = openDB();
+    let sql = `SELECT * FROM users
+           WHERE username LIKE (?) AND password = (?)`;
+
+    db.all(sql, [username, password], (err, result) => {
+        if (err) {
+            throw err;
+        }
+        console.log(result);
+        if (result.length === 1){
+            res.send({userExists:true})
+        } else {
+            db.run(`INSERT INTO users(username,password,createdOn,lastUpdated) VALUES(?,?,?,?)`, [req.body.username,req.body.password,req.body.createdOn,req.body.createdOn], function(err) {
+                if (err) {
+                    console.log(err.message);
+                    res.send({error:err.message})
+                } else {
+                    res.send({userExists:false});
+                    console.log(`A row has been inserted with rowid ${this.lastID}`);
+                }
+            });
+        }
+    });
+    closeDB(db);});
 function openDB(){
 // open the database
     let db = new sqlite3.Database('./db/Database0.db', sqlite3.OPEN_READWRITE, (err) => {
@@ -55,6 +103,7 @@ function openDB(){
             console.error(err.message);
         }
         else {
+            db.get("PRAGMA foreign_keys = ON")
             console.log('Connected to Database0');}
     });
     return db
