@@ -2,41 +2,55 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Title</title>
+	<title>Minutes</title>
+	<link rel="stylesheet" href="../stylesheets/index.css">
+
 </head>
 <body>
 	<div id="page-mask"></div>
 	<form name="minuteForm" id="minuteForm" class="minuteForm" action="#" method="#">
-		<label for="dateTime" >dateTime</label>
-		<input name="dateTime" id="dateTime" >
-		<label for="location" >location</label>
-		<input name="location" id="location" >
-		<label for="attendees" >attendees</label>
-		<input name="attendees" id="attendees" >
+		<section id="metaData">
+			<label for="dateTime" >dateTime</label>
+			<input name="dateTime" id="dateTime" required>
+			<label for="location" >location</label>
+			<input name="location" id="location" >
+			<label for="attendees" >attendees</label>
+			<input name="attendees" id="attendees" >
+			<label for="committee" >committee</label>
+			<input name="committee" id="committee" required>
+		</section>
 <!--		agenda items be an ordered list each containing the inputs for the item the notes  on it and the date it
 will be followed up on  also link it to action points -->
 <!--		add button for more agenda items-->
 <!--		addbutton for more action items-->
-		<label for="agendaItem" >agendaItem</label>
-		<input name="agendaItem" id="agendaItem" >
-		<label for="notes" >notes</label>
-		<input name="notes" id="notes" >
-		<label for="followupDate" >followupDate</label>
-		<input name="followupDate" id="followupDate" >
-		<label for="relatedActionPoint" >relatedActionPoint</label>
-		<input name="relatedActionPoint" id="relatedActionPoint" >
-		<label for="actionPoint" >actionPoint</label>
-		<input name="actionpoint" id="actionpoint" >
-		<label for="assignees" >assignees</label>
-		<input name="assignees" id="assignees" >
-		<label for="dueDate" >dueDate</label>
-		<input name="dueDate" id="dueDate" >
+		<button name="addAgendaItem" id="addAgendaItem">Add Agenda Item</button>
+		<section id="agendaItems">
+			<label for="agendaItem" >agendaItem</label>
+			<input name="agendaItem" id="agendaItem" >
+			<label for="itemDetails" >itemDetails</label>
+			<input name="itemDetails" id="itemDetails" >
+			<label for="notes" >notes</label>
+			<input name="notes" id="notes" >
+			<label for="followupDate" >followupDate</label>
+			<input name="followupDate" id="followupDate" >
+			<label for="relatedActionPoint" >relatedActionPointID</label>
+			<input name="relatedActionPoint" id="relatedActionPoint" >
+		</section>
+		<button name="addActionPoint" id="addActionPoint"> Add Action Point</button>
+		<section id="actionPoints">
+			<label for="actionPoint" >Action Point ID</label>
+			<input name="actionPoint" id="actionPoint" >
+			<label for="actionDetails" >actionDetails</label>
+			<input name="actionDetails" id="actionDetails" >
+			<label for="assignees" >assignees</label>
+			<input name="assignees" id="assignees" >
+			<label for="dueDate" >dueDate</label>
+			<input name="dueDate" id="dueDate" >
+		</section>
+
 		<button id="saveButton" name="saveButton"> save </button>
 		<button id="loadButton" name="loadButton"> load </button>
 	</form>
-
-
-
 
 	<div id="loadModal" class="modal loadModal">
 		<div class="loadModal-content">
@@ -78,11 +92,11 @@ will be followed up on  also link it to action points -->
 			<form class="loginModal-content animate" action="/signup" method="post" name="signupForm" id="signupForm" >
 				<div class="container">
 					<label for="signupUsername"><b>Username</b></label>
-					<input type="text" placeholder="Enter Username" name="signupUsername" id="signupUsername"required>
+					<input type="text" placeholder="Enter Username" name="signupUsername" id="signupUsername" required>
 
 					<label for="signupPassword"><b>Password</b></label>
 					<input type="password" placeholder="Enter Password" name="signupPassword"
-					       id="signupPassword"required>
+					       id="signupPassword" required>
 					<button name="signupButton" id="signupButton" type="submit">signup</button>
 
 				</div>
@@ -91,259 +105,11 @@ will be followed up on  also link it to action points -->
 				</div>
 			</form>
 		</div>
+
+	<script src="../scripts/index.js"></script>
 </body>
 </html>
-<style>
-	body {font-family: Arial, Helvetica, sans-serif;}
-	.minuteForm{
-		display: grid;
-	}
-	.modal {
-		display: none;
-		position: fixed;
-		z-index: 1;
-		left: 0;
-		top: 0;
-		width: 100%;
-		height: 100%;
-	}
-	.loadModal {
-		-webkit-animation-name: fadeIn;
-		-webkit-animation-duration: 0.4s;
-		animation-name: fadeIn;
-		animation-duration: 0.4s
-	}
-
-	.loginModal-content {
-		background-color: #fefefe;
-		margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
-		border: 1px solid #888;
-		width: 80%; /* Could be more or less, depending on screen size */
-	}
-	.loadModal-content {
-		position: fixed;
-		bottom: 0;
-		background-color: #fefefe;
-		width: 100%;
-		-webkit-animation-name: slideIn;
-		-webkit-animation-duration: 0.4s;
-		animation-name: slideIn;
-		animation-duration: 0.4s
-	}
-	.modal-header {
-		padding: 2px 16px;
-		background-color: #b81c93;
-		color: white;
-	}
-	.modal-body {padding: 2px 16px;}
-
-	/* Add  slide in animation */
-	@-webkit-keyframes slideIn {
-		from {bottom: -300px; opacity: 0}
-		to {bottom: 0; opacity: 1}
-	}
-
-	@keyframes slideIn {
-		from {bottom: -300px; opacity: 0}
-		to {bottom: 0; opacity: 1}
-	}
-
-	@-webkit-keyframes fadeIn {
-		from {opacity: 0}
-		to {opacity: 1}
-	}
-
-	@keyframes fadeIn {
-		from {opacity: 0}
-		to {opacity: 1}
-	}
-
-	input[type=text], input[type=password] {
-		width: 100%;
-		padding: 12px 20px;
-		margin: 8px 0;
-		display: inline-block;
-		border: 1px solid #ccc;
-		box-sizing: border-box;
-	}
-
-	.container {
-		background-color:#f1f1f1;
-		padding: 16px;
-	}
-
-	span.password {
-		float: right;
-		padding-top: 16px;
-	}
-
-	/* Add Zoom Animation */
-	.animate {
-		-webkit-animation: animatezoom 0.6s;
-		animation: animatezoom 0.6s
-	}
-
-	@-webkit-keyframes animatezoom {
-		from {-webkit-transform: scale(0)}
-		to {-webkit-transform: scale(1)}
-	}
-
-	@keyframes animatezoom {
-		from {transform: scale(0)}
-		to {transform: scale(1)}
-	}
-
-	#page-mask {
-		display: none;
-		position: fixed;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		top: 0;
-		background-color: rgba(0,0,0,0.6);
-	}
 
 
-
-</style>
-<script>
-    const loginModal = document.getElementById('loginModal');
-    const signupModal = document.getElementById('signupModal');
-    window.onload = function() {
-       if (sessionStorage.getItem("username") == null){
-			showModal(loginModal)
-       }
-    };
-    window.onclick = function(event) {
-        if (event.target === loadModal) {
-            closeLoadModal()
-        }};
-    const loadModal = document.getElementById("loadModal");
-    const saveButton = document.getElementById('saveButton');
-    const loadButton = document.getElementById('loadButton');
-    const loginForm = document.getElementById('loginForm');
-    const signupForm = document.getElementById('signupForm');
-    const minuteForm = document.getElementById('minuteForm');
-    saveButton.addEventListener('click', async () => {
-        let minuteFormData = new FormData(minuteForm);
-        minuteFormData.append('timestamp', new Date().toJSON());
-        let data = JSON.stringify(Object.fromEntries(minuteFormData));
-        const response = await fetch('saveMinutes', {
-	        method: 'POST',
-	        body: data,
-	        headers:{
-	        'Content-Type': 'application/json'
-	        }
-    }).then(res => res.json())
-        .catch(error => console.error('Error:', error))
-        .then(response => console.log('Success:', response));
-    });
-    loadButton.addEventListener('click', () => {
-		showModal(loadModal);
-        buildLoadModalOptions()
-    });
-    loginForm.addEventListener('submit', async () => {
-        event.preventDefault();
-        let username = document.getElementById('username').value;
-        let password = document.getElementById('password').value;
-        let remember = document.getElementById('remember').checked;
-        let data = {username:username,password:password}
-        const response = await fetch('login', {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers:{
-                'Content-Type': 'application/json'
-            }
-        }).then(res => res.json() )
-            .catch(error => console.error('Error:', error))
-            .then(response => {
-	            if (response.userExists === true){
-	                if (remember === true){
-                        window.localStorage.setItem('username', response.username);
-	                }else {
-                        window.sessionStorage.setItem('username', response.username);
-                    }
-                    //this needs better userfeed back so they know why it closed
-					alert("success!!");
-                    closeModal(loginModal)
-	            } else if (response.userExists === false ){
-
-                    //else tell them that is the wrong username or password
-					alert("incorrect username or password")
-                }
-	            //else tell them that is the wrong username or password
-                        })});
-    signupForm.addEventListener('submit', async () => {
-        event.preventDefault();
-        let username = document.getElementById('signupUsername').value;
-        let password = document.getElementById('signupPassword').value;
-        let createdOn = new Date().toJSON();
-        let data = {username:username,password:password,createdOn:createdOn}
-        const response = await fetch('signup', {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers:{
-                'Content-Type': 'application/json'
-            }
-        }).then(res => res.json() )
-            .catch(error => console.error('Error:', error))
-            .then(response => {
-	            if (response.userExists === true){
-                    alert("Your username is not unique! please try again")
-
-	            } else if (response.userExists === false  ){
-                    window.sessionStorage.setItem('username', username);
-                    //this needs better userfeed back so they know why it closed
-                    alert("success!!");
-                    closeModal(signupModal)
-                } else if (response.error.length > 0){
-	                alert("sorry something went wrong")
-	            }
-	            //else tell them that is the wrong username or password
-                        })});
-    async function buildLoadModalOptions() {
-        const response = await fetch('loadSelectableMinutes', {
-            method: 'POST',
-            body: JSON.stringify({username:sessionStorage.getItem("username")}),
-            headers:{
-                'Content-Type': 'application/json'
-            }
-        }).then(res => res.json() )
-            .catch(error => console.error('Error:', error))
-            .then(response =>{
-                const minuteList = document.getElementById("minuteList");
-	            for (let i in response.result){
-	                let date = response.result[i].timestamp;
-	                let data = response.result[i].minuteData;
-                    let el = makeClickableListItem(date, data);
-                    minuteList.appendChild(el);
-        }
-    })};
-    function makeClickableListItem(date, data) {
-        const node = document.createElement("LI");
-        let textnode = document.createTextNode(date + "    " + data);
-        node.appendChild(textnode);
-        node.addEventListener('click', () => {document.getElementById('genericInput').setAttribute('value',data),
-	        closeLoadModal()});
-        return node;
-    }
-    function showModal(modal) {
-        modal.style.display = 'block';
-        document.getElementById('page-mask').style.display = 'block';
-    }
-    function closeModal(modal){
-        modal.style.display = "none";
-        document.getElementById('page-mask').style.display='none';
-
-    }
-    function closeLoadModal(){
-     closeModal(loadModal)
-     let root = document.getElementById("minuteList");
-     while( root.firstChild ){
-         root.removeChild( root.firstChild );
-     }
- }
-
-</script>
 
 
