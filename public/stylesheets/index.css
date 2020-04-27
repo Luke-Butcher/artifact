@@ -1,7 +1,43 @@
-body {font-family: Arial, Helvetica, sans-serif;}
+body {
+    background-color:#2a323b;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #cecccc;
+    padding: 30px;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+    border: 0px;
+    -webkit-text-fill-color: #cecccc;
+    -webkit-box-shadow: 0 0 0px 1000px #484f5c inset;
+    transition: background-color 5000s ease-in-out 0s;
+}
+input{
+    width: 50px;
+    min-width: 50px;
+    background-color:#484f5c;
+    border: 0px none;
+    color: #cecccc;
+}
+textarea{
+    width: 90px;
+    min-width: 90px;
+    height: 50px;
+    background-color:#484f5c;
+    border: 0px none;
+    color: #cecccc;
+}
+
 .minuteForm > section{
     display: grid;
 }
+
 .modal {
     display: none;
     position: fixed;
@@ -19,7 +55,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 }
 
 .loginModal-content {
-    background-color: #fefefe;
+    background-color:#2a323b;
     margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
     border: 1px solid #888;
     width: 80%; /* Could be more or less, depending on screen size */
@@ -27,7 +63,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 .loadModal-content {
     position: fixed;
     bottom: 0;
-    background-color: #fefefe;
+    background-color:#2a323b;
     width: 100%;
     -webkit-animation-name: slideIn;
     -webkit-animation-duration: 0.4s;
@@ -36,7 +72,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 }
 .modal-header {
     padding: 2px 16px;
-    background-color: #b81c93;
+    background-color: #484f5c;
     color: white;
 }
 .modal-body {padding: 2px 16px;}
@@ -72,7 +108,7 @@ input[type=text], input[type=password] {
 }
 
 .container {
-    background-color:#f1f1f1;
+    background-color:#2a323b;
     padding: 16px;
 }
 

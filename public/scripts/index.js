@@ -15,7 +15,11 @@ const loadButton = document.getElementById('loadButton');
 const loginForm = document.getElementById('loginForm');
 const signupForm = document.getElementById('signupForm');
 const minuteForm = document.getElementById('minuteForm');
-
+// resizes the input boxes as user types
+const inputs = document.querySelectorAll('input, textarea');
+for (let input of inputs){
+    input.addEventListener('input', resizeInput);
+}
 saveButton.addEventListener('click', async () => {
     let minuteFormData = new FormData(minuteForm);
     minuteFormData.append('timestamp', new Date().toJSON());
@@ -134,14 +138,16 @@ function makeClickableListItem(date, data, json) {
     let textnode = document.createTextNode(date + "    " + data);
     node.appendChild(textnode);
     node.addEventListener('click', () => {
-        let inputs = Array.prototype.slice.call(document.querySelectorAll('form input'));
+        let inputs = Array.prototype.slice.call(document.querySelectorAll('form input, textarea'));
 //inputItem.name must match the column in the db for this to work
         Object.keys(json).map(function (dataItem) {
             inputs.map(function (inputItem) {
                 return (inputItem.name === dataItem) ? (inputItem.value = json[dataItem]) : false;
             });
+            for (let input of inputs) {
+                input.dispatchEvent(new Event('input'))
+            }
         });
-
         closeLoadModal()});
     return node;
 }
@@ -160,4 +166,13 @@ function closeLoadModal(){
     while( root.firstChild ){
         root.removeChild( root.firstChild );
     }
+}
+
+function resizeInput() {
+    if (this.value.length < 100){
+    this.style.width = this.value.length + "ch";
+    } else if (this.type === "textarea" && this.value.length >=99){
+        return
+    }else if (this.type === "textarea"){
+         this.value = this.value + "\n"}
 }
