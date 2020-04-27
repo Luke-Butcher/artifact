@@ -2,14 +2,111 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Title</title>
+	<title>Minutes</title>
+	<link rel="stylesheet" href="../stylesheets/index.css">
+
 </head>
 <body>
-	<textarea id="genericInput" name="genericInput"
-	          rows="5" cols="33">
-		add text here
-	</textarea>
-<button id="saveButton" name="saveButton"> save </button>
-<button id="loadButton" name="loadButton"> load </button>
+	<div id="page-mask"></div>
+	<form name="minuteForm" id="minuteForm" class="minuteForm" action="#" method="#">
+		<section id="metaData">
+			<input name="minuteID" id="minuteID" hidden>
+			<label for="dateTime" >dateTime</label>
+			<input name="dateTime" id="dateTime" required>
+			<label for="location" >location</label>
+			<input name="location" id="location" >
+			<label for="attendees" >attendees</label>
+			<input name="attendees" id="attendees" >
+			<label for="committee" >committee</label>
+			<input name="committee" id="committee" required>
+		</section>
+		<button name="addAgendaItem" id="addAgendaItem">Add Agenda Item</button>
+		<section id="agendaItems">
+			<label for="agendaItem" >agendaItem</label>
+			<input name="agendaItemID" id="agendaItem" >
+			<label for="itemDetails" >itemDetails</label>
+			<input name="itemDetails" id="itemDetails" >
+			<label for="notes" >notes</label>
+			<input name="notes" id="notes" >
+			<label for="followupDate" >followupDate</label>
+			<input name="followupDate" id="followupDate" >
+			<label for="relatedActionPoint" >relatedActionPointID</label>
+			<input name="relatedActionPoint" id="relatedActionPoint" >
+		</section>
+		<button name="addActionPoint" id="addActionPoint"> Add Action Point</button>
+		<section id="actionPoints">
+			<label for="actionPoint" >Action Point ID</label>
+			<input name="actionID" id="actionPoint" >
+			<label for="actionDetails" >actionDetails</label>
+			<input name="details" id="actionDetails" >
+			<label for="assignees" >assignees</label>
+			<input name="assignees" id="assignees" >
+			<label for="dueDate" >dueDate</label>
+			<input name="dueDate" id="dueDate" >
+		</section>
+
+		<button id="saveButton" name="saveButton"> save </button>
+		<button id="loadButton" name="loadButton"> load </button>
+	</form>
+
+	<div id="loadModal" class="modal loadModal">
+		<div class="loadModal-content">
+			<div class="modal-header">
+				<h2>Select a minute to load</h2>
+			</div>
+			<div  class="modal-body">
+				<ul id="minuteList"></ul>
+			</div>
+		</div>
+	</div>
+<!--	vv i am for testing remove me eventualy vv-->
+	<button onclick="showModal(loginModal)">Login
+	</button>
+	<button onclick="showModal(signupModal)">Sign up
+		</button>
+<!--	^^ i am for testing remove me eventualy ^^-->
+		<div id="loginModal" class="modal">
+			<form class="loginModal-content animate" action="/login" method="post" name="loginForm" id="loginForm" >
+				<div class="container">
+					<label for="username"><b>Username</b></label>
+					<input type="text" placeholder="Enter Username" name="username" id="username"required>
+
+					<label for="password"><b>Password</b></label>
+					<input type="password" placeholder="Enter Password" name="password" id="password"required>
+					<button name="loginButton" id="loginButton" type="submit">Login</button>
+					<label>
+						<input type="checkbox" checked="checked" name="remember" id="remember"> Remember me
+					</label>
+				</div>
+
+				<div class="container">
+					<button type="button" onclick="closeModal(loginModal)">Cancel</button>
+<!--					<span class="password">Forgot <a href="#">password?</a></span>-->
+				</div>
+			</form>
+		</div>
+		<div id="signupModal" class="modal">
+			<form class="loginModal-content animate" action="/signup" method="post" name="signupForm" id="signupForm" >
+				<div class="container">
+					<label for="signupUsername"><b>Username</b></label>
+					<input type="text" placeholder="Enter Username" name="signupUsername" id="signupUsername" required>
+
+					<label for="signupPassword"><b>Password</b></label>
+					<input type="password" placeholder="Enter Password" name="signupPassword"
+					       id="signupPassword" required>
+					<button name="signupButton" id="signupButton" type="submit">signup</button>
+
+				</div>
+				<div class="container">
+					<button type="button" onclick="closeModal(signupModal)">Cancel</button>
+				</div>
+			</form>
+		</div>
+
+	<script src="../scripts/index.js"></script>
 </body>
 </html>
+
+
+
+
