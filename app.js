@@ -99,8 +99,7 @@ app.post("/updateMinutes", (req, res) => {
 });
 
 app.post("/loadSelectableMinutes", (req,res)=> {
-    let username = req.body.username + '%';
-    console.log(username)
+    let username = '%' + req.body.username + '%';
     let db = openDB()
     let sql = `SELECT * FROM minutes m
      left outer join agendaItems aI on m.minuteID = aI.relatedMinute
@@ -112,7 +111,6 @@ ORDER BY -m.createdOn`;
         if (err) {
             throw err;
         }
-        console.log(result)
         res.send({success:"success",result:result})
     });
     closeDB(db);
@@ -130,7 +128,6 @@ app.post("/login", (req, res) => {
         if (err) {
             throw err;
         }
-        console.log(result);
         if (result.length === 1){
             res.send({userExists:true,username:username})
         } else {
@@ -151,7 +148,6 @@ app.post("/signup", (req, res) => {
         if (err) {
             throw err;
         }
-        console.log(result);
         if (result.length === 1){
             res.send({userExists:true})
         } else {

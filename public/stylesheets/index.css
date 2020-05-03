@@ -18,24 +18,25 @@ select:-webkit-autofill:focus {
     -webkit-box-shadow: 0 0 0px 1000px #484f5c inset;
     transition: background-color 5000s ease-in-out 0s;
 }
-input{
-    width: 50px;
-    min-width: 50px;
+input, textarea {
     background-color:#484f5c;
     border: 0px none;
     color: #cecccc;
 }
-textarea{
-    width: 90px;
-    min-width: 90px;
+.minuteForm input{
+    width: 100px;
+    min-width: 100px;
+
+}
+.minuteForm textarea{
+    width: 190px;
+    min-width: 190px;
     height: 50px;
-    background-color:#484f5c;
-    border: 0px none;
-    color: #cecccc;
 }
 
 .minuteForm > section{
     display: grid;
+
 }
 
 .modal {
@@ -56,9 +57,10 @@ textarea{
 
 .loginModal-content {
     background-color:#2a323b;
-    margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+    margin: 5% auto 15% auto;
     border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
+    width: 80%;
+    border: none;
 }
 .loadModal-content {
     position: fixed;
@@ -103,7 +105,6 @@ input[type=text], input[type=password] {
     padding: 12px 20px;
     margin: 8px 0;
     display: inline-block;
-    border: 1px solid #ccc;
     box-sizing: border-box;
 }
 
@@ -141,6 +142,24 @@ span.password {
     bottom: 0;
     top: 0;
     background-color: rgba(0,0,0,0.6);
+}
+
+a.button{
+    display:inline-block;
+    padding:0.3em 1.2em;
+    margin:1em;
+    border-radius:2em;
+    box-sizing: border-box;
+    text-decoration:none;
+    font-family:'Roboto',sans-serif;
+    font-weight:300;
+    color:#cecccc;
+    background-color:#484f5c;
+    text-align:center;
+    transition: all 0.2s;
+}
+a.button:hover{
+    background-color:#4095c6;
 }
 
 

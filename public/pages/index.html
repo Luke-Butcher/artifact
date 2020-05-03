@@ -32,7 +32,7 @@
 			<label for="relatedActionPoint" >Related Action Point ID</label>
 			<input name="relatedActionPoint" id="relatedActionPoint" >
 		</section>
-		<button name="addAgendaItem" id="addAgendaItem">Add Agenda Item</button>
+		<a name="addAgendaItem" id="addAgendaItem" class="button" href="#">Add Agenda Item</a>
 		<section id="actionPoints">
 			<label for="actionPoint" >Action Point ID</label>
 			<input name="actionID" id="actionPoint" >
@@ -43,11 +43,10 @@
 			<label for="dueDate" >Due Date</label>
 			<input name="dueDate" id="dueDate" >
 		</section>
-		<button name="addActionPoint" id="addActionPoint"> Add Action Point</button>
-
-
-		<button id="saveButton" name="saveButton"> save </button>
-		<button id="loadButton" name="loadButton"> load </button>
+		<a name="addActionPoint" id="addActionPoint" class="button" href="#"> Add Action Point</a>
+		<br>
+		<a id="saveButton" name="saveButton" href="#" class="button"> save </a>
+		<a id="loadButton" name="loadButton" href="#" class="button"> load </a>
 	</form>
 
 	<div id="loadModal" class="modal loadModal">
@@ -60,12 +59,8 @@
 			</div>
 		</div>
 	</div>
-<!--	vv i am for testing remove me eventualy vv-->
-	<button onclick="showModal(loginModal)">Login
-	</button>
-	<button onclick="showModal(signupModal)">Sign up
-		</button>
-<!--	^^ i am for testing remove me eventualy ^^-->
+	<a name="showLoginModalButton" id="showLoginModalButton" class="button" href="#">Login</a>
+	<a name="showSignupModalButton" id="showSignupModalButton" class="button" href="#">Sign up</a>
 		<div id="loginModal" class="modal">
 			<form class="loginModal-content animate" action="/login" method="post" name="loginForm" id="loginForm" >
 				<div class="container">
@@ -74,15 +69,14 @@
 
 					<label for="password"><b>Password</b></label>
 					<input type="password" placeholder="Enter Password" name="password" id="password"required>
-					<button name="loginButton" id="loginButton" type="submit">Login</button>
+					<a name="loginButton" id="loginButton" class="button" href="#">Login</a>
 					<label>
 						<input type="checkbox" checked="checked" name="remember" id="remember"> Remember me
 					</label>
 				</div>
 
 				<div class="container">
-					<button type="button" onclick="closeModal(loginModal)">Cancel</button>
-<!--					<span class="password">Forgot <a href="#">password?</a></span>-->
+					<a name="closeLoginModalButton" id="closeLoginModalButton" class="button" href="#">Cancel</a>
 				</div>
 			</form>
 		</div>
@@ -95,11 +89,10 @@
 					<label for="signupPassword"><b>Password</b></label>
 					<input type="password" placeholder="Enter Password" name="signupPassword"
 					       id="signupPassword" required>
-					<button name="signupButton" id="signupButton" type="submit">signup</button>
-
+					<a name="signupButton" id="signupButton" class="button" href="#">signup</a>
 				</div>
 				<div class="container">
-					<button type="button" onclick="closeModal(signupModal)">Cancel</button>
+					<a name="closeSignupModalButton" id="closeSignupModalButton" class="button" href="#">Cancel</a>
 				</div>
 			</form>
 		</div>

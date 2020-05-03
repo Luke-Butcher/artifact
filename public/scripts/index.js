@@ -12,11 +12,9 @@ window.onclick = function(event) {
 const loadModal = document.getElementById("loadModal");
 const saveButton = document.getElementById('saveButton');
 const loadButton = document.getElementById('loadButton');
-const loginForm = document.getElementById('loginForm');
-const signupForm = document.getElementById('signupForm');
 const minuteForm = document.getElementById('minuteForm');
 // resizes the input boxes as user types
-const inputs = document.querySelectorAll('input, textarea');
+const inputs = document.forms.minuteForm.querySelectorAll('input, textarea');
 for (let input of inputs){
     input.addEventListener('input', resizeInput);
 }
@@ -51,7 +49,7 @@ loadButton.addEventListener('click', () => {
     showModal(loadModal);
     buildLoadModalOptions()
 });
-loginForm.addEventListener('submit', async () => {
+document.getElementById('loginButton').addEventListener('click', async () => {
     event.preventDefault();
     let username = document.getElementById('username').value;
     let password = document.getElementById('password').value;
@@ -67,6 +65,7 @@ loginForm.addEventListener('submit', async () => {
         .catch(error => console.error('Error:', error))
         .then(response => {
             if (response.userExists === true){
+                sessionStorage.clear()
                 if (remember === true){
                     window.localStorage.setItem('username', response.username);
                 }else {
@@ -79,7 +78,7 @@ loginForm.addEventListener('submit', async () => {
             }
         })
 });
-signupForm.addEventListener('submit', async () => {
+document.getElementById('signupButton').addEventListener('click', async () => {
     event.preventDefault();
     let username = document.getElementById('signupUsername').value;
     let password = document.getElementById('signupPassword').value;
@@ -98,8 +97,8 @@ signupForm.addEventListener('submit', async () => {
                 alert("Your username is not unique! please try again")
 
             } else if (response.userExists === false  ){
+                sessionStorage.clear()
                 window.sessionStorage.setItem('username', username);
-                //this needs better userfeed back so they know why it closed
                 alert("success!!");
                 closeModal(signupModal)
             } else if (response.error.length > 0){
@@ -108,7 +107,11 @@ signupForm.addEventListener('submit', async () => {
         })
 });
 
+document.getElementById("showLoginModalButton").addEventListener('click',  () =>{showModal(loginModal)})
+document.getElementById("closeLoginModalButton").addEventListener('click',  () =>{closeModal(loginModal)})
 
+document.getElementById("showSignupModalButton").addEventListener('click',  () =>{showModal(signupModal)})
+document.getElementById("closeSignupModalButton").addEventListener('click',  () =>{closeModal(signupModal)})
 async function buildLoadModalOptions() {
     let username;
     if(sessionStorage.getItem("username")!= null){
@@ -153,7 +156,8 @@ function makeClickableListItem(date, data, json) {
 }
 function showModal(modal) {
     modal.style.display = 'block';
-    document.getElementById('page-mask').style.display = 'block';
+    return document.getElementById('page-mask').style.display = 'block';
+
 }
 function closeModal(modal){
     modal.style.display = "none";
