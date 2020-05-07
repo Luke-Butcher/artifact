@@ -1,14 +1,25 @@
-const loginModal = document.getElementById('loginModal');
-const signupModal = document.getElementById('signupModal');
 window.onload = function() {
-    if (sessionStorage.getItem("username") == null && localStorage.getItem("username") == null){
-        showModal(loginModal)
+    let sessionUsername = sessionStorage.getItem("username")
+    let localUsername = localStorage.getItem("username")
+    if (sessionUsername == null && localUsername == null){
+        showModal(signupModal)
+    }else{
+        let username;
+        if(localUsername != null){
+            username = localUsername
+        }else if (sessionUsername != null){
+            username = sessionUsername
+        }
+        alert('You are logged in as ' + username)
     }
 };
 window.onclick = function(event) {
     if (event.target === loadModal) {
         closeLoadModal()
     }};
+
+const loginModal = document.getElementById('loginModal');
+const signupModal = document.getElementById('signupModal');
 const loadModal = document.getElementById("loadModal");
 const saveButton = document.getElementById('saveButton');
 const loadButton = document.getElementById('loadButton');
@@ -18,44 +29,50 @@ const inputs = document.forms.minuteForm.querySelectorAll('input, textarea');
 for (let input of inputs){
     input.addEventListener('input', resizeInput);
 }
+
 saveButton.addEventListener('click', async () => {
-    let minuteFormData = new FormData(minuteForm);
-    minuteFormData.append('timestamp', new Date().toJSON());
-    let data = JSON.stringify(Object.fromEntries(minuteFormData));
-    //if the minuteID is populated this is a loaded content set and save should do an update
-    if(document.getElementById("minuteID").value){
-        const response = await fetch('updateMinutes', {
-            method: 'POST',
-            body: data,
-            headers:{
-                'Content-Type': 'application/json'
-            }
-        }).then(res => res.json())
-            .catch(error => console.error('Error:', error))
-            .then(() => alert("success!!"));
+    let minimalComplete = checkMinimalCompletion()
+    if (minimalComplete) {
+        let minuteFormData = new FormData(minuteForm);
+        minuteFormData.append('timestamp', new Date().toJSON());
+        let data = JSON.stringify(Object.fromEntries(minuteFormData));
+        //if the minuteID is populated this is a loaded content set and save should do an update
+        if (document.getElementById("minuteID").value) {
+            await fetch('updateMinutes', {
+                method: 'POST',
+                body: data,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(res => res.json())
+                .catch(error => console.error('Error:', error))
+                .then(() => alert("success!!"));
+        } else {
+            await fetch('saveMinutes', {
+                method: 'POST',
+                body: data,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(res => res.json())
+                .catch(error => console.error('Error:', error))
+                .then(() => alert("success!!"));
+        }
     }else{
-        const response = await fetch('saveMinutes', {
-            method: 'POST',
-            body: data,
-            headers:{
-                'Content-Type': 'application/json'
-            }
-        }).then(res => res.json())
-            .catch(error => console.error('Error:', error))
-            .then(() => alert("success!!"));
+        alert("Sorry you must fill out the datetime, location, attendees and committee form fields.")
     }
 });
 loadButton.addEventListener('click', () => {
     showModal(loadModal);
     buildLoadModalOptions()
 });
+
 document.getElementById('loginButton').addEventListener('click', async () => {
-    event.preventDefault();
     let username = document.getElementById('username').value;
     let password = document.getElementById('password').value;
     let remember = document.getElementById('remember').checked;
     let data = {username:username,password:password}
-    const response = await fetch('login', {
+    await fetch('login', {
         method: 'POST',
         body: JSON.stringify(data),
         headers:{
@@ -66,6 +83,7 @@ document.getElementById('loginButton').addEventListener('click', async () => {
         .then(response => {
             if (response.userExists === true){
                 sessionStorage.clear()
+                localStorage.clear()
                 if (remember === true){
                     window.localStorage.setItem('username', response.username);
                 }else {
@@ -78,13 +96,22 @@ document.getElementById('loginButton').addEventListener('click', async () => {
             }
         })
 });
+document.getElementById('logout').addEventListener('click', async () => {
+    alert("you have been logged out")
+    sessionStorage.clear()
+    localStorage.clear()
+    location.reload();
+});
 document.getElementById('signupButton').addEventListener('click', async () => {
-    event.preventDefault();
     let username = document.getElementById('signupUsername').value;
     let password = document.getElementById('signupPassword').value;
+    if (username.length < 3 || password.length < 3) {
+        alert("please fill out both parts of this form")
+        return
+    }
     let createdOn = new Date().toJSON();
     let data = {username:username,password:password,createdOn:createdOn}
-    const response = await fetch('signup', {
+    await fetch('signup', {
         method: 'POST',
         body: JSON.stringify(data),
         headers:{
@@ -95,13 +122,12 @@ document.getElementById('signupButton').addEventListener('click', async () => {
         .then(response => {
             if (response.userExists === true){
                 alert("Your username is not unique! please try again")
-
             } else if (response.userExists === false  ){
                 sessionStorage.clear()
                 window.sessionStorage.setItem('username', username);
                 alert("success!!");
                 closeModal(signupModal)
-            } else if (response.error.length > 0){
+            } else if (response.error){
                 alert("sorry something went wrong")
             }
         })
@@ -109,9 +135,9 @@ document.getElementById('signupButton').addEventListener('click', async () => {
 
 document.getElementById("showLoginModalButton").addEventListener('click',  () =>{showModal(loginModal)})
 document.getElementById("closeLoginModalButton").addEventListener('click',  () =>{closeModal(loginModal)})
-
 document.getElementById("showSignupModalButton").addEventListener('click',  () =>{showModal(signupModal)})
 document.getElementById("closeSignupModalButton").addEventListener('click',  () =>{closeModal(signupModal)})
+
 async function buildLoadModalOptions() {
     let username;
     if(sessionStorage.getItem("username")!= null){
@@ -119,7 +145,7 @@ async function buildLoadModalOptions() {
     } else {
         username=localStorage.getItem("username")
     }
-    const response = await fetch('loadSelectableMinutes', {
+    await fetch('loadSelectableMinutes', {
         method: 'POST',
         body: JSON.stringify({username:username}),
         headers:{
@@ -135,7 +161,9 @@ async function buildLoadModalOptions() {
                 let el = makeClickableListItem(date, data, response.result[i]);
                 minuteList.appendChild(el);
             }
-        })};
+        })
+}
+
 function makeClickableListItem(date, data, json) {
     const node = document.createElement("LI");
     let textnode = document.createTextNode(date + "    " + data);
@@ -154,16 +182,19 @@ function makeClickableListItem(date, data, json) {
         closeLoadModal()});
     return node;
 }
+
 function showModal(modal) {
     modal.style.display = 'block';
     return document.getElementById('page-mask').style.display = 'block';
 
 }
+
 function closeModal(modal){
     modal.style.display = "none";
     document.getElementById('page-mask').style.display='none';
 
 }
+
 function closeLoadModal(){
     closeModal(loadModal)
     let root = document.getElementById("minuteList");
@@ -179,4 +210,13 @@ function resizeInput() {
         return
     }else if (this.type === "textarea"){
          this.value = this.value + "\n"}
+}
+
+function checkMinimalCompletion(){
+    for(let i=0; i < minuteForm.elements.length; i++){
+        if(minuteForm.elements[i].value.length === 0 && minuteForm.elements[i].hasAttribute('required')){
+            return false;
+        }
+    }
+    return true
 }

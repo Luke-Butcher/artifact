@@ -53,44 +53,37 @@ app.post("/saveMinutes", (req, res) => {
 
 app.post("/updateMinutes", (req, res) => {
     let db = openDB();
-    let minuteId;
-    let actionId;
     db.serialize(() => {
-        db.run(`UPDATE minutes set dateTime = ?,  location = ?,  attendees = ?,  userAccess = ?,  createdOn = ?, lastUpdated = ?,  committee = ? where minuteID = ?`
-, [req.body.dateTime, req.body.location, req.body.attendees, req.body.attendees, req.body.timestamp, req.body.timestamp,req.body.committee, req.body.minuteID], function (err) {
+        db.run(`UPDATE minutes set dateTime = ?,  location = ?,  attendees = ?,  userAccess = ?,  createdOn = ?,
+                    lastUpdated = ?,  committee = ? 
+                    where minuteID = ?`
+, [req.body.dateTime, req.body.location, req.body.attendees, req.body.attendees, req.body.timestamp, req.body.timestamp,req.body.committee, req.body.minuteID],
+            function (err) {
             if (err) {
                 console.log("error updating minutes" + err.message);
                 res.send({error: err.message})
             }
             console.log(`A row has been updated in minutes with rowid ${this.lastID}`);
-            db.run(`update actions
-            set assignees = ?,
-              details = ?,
-              dueDate = ?,
-              createdOn = ?,
-              lastUpdated = ?
-             where actionID = ?`, [req.body.assignees, req.body.details, req.body.dueDate, req.body.timestamp, req.body.timestamp,req.body.actionID], function (err) {
+            db.run(`update actions set assignees = ?, details = ?, dueDate = ?, createdOn = ?, lastUpdated = ? 
+where actionID = ?`,
+                [req.body.assignees, req.body.details, req.body.dueDate, req.body.timestamp, req.body.timestamp,req.body.actionID],
+                function (err) {
                 if (err) {
                     console.log("error updating in to actions" + err.message);
                     res.send({error: err.message})
                 }
                 console.log(`A row has been updated in actions with rowid ${this.lastID}`);
-                db.run(`update agendaItems
-                set relatedMinute = ?,
-                 itemDetails =?,
-                 relatedActionPoint = ?,
-                 notes = ?,
-                 followupDate = ?,
-                 createdOn = ?,
-                  lastUpdated = ?
-                 where agendaItemID = ?`, [req.body.minuteID, req.body.itemDetails, req.body.actionID, req.body.notes, req.body.followupDate, req.body.timestamp, req.body.timestamp, req.body.agendaItemID], function (err) {
+                db.run(`update agendaItems set relatedMinute = ?, itemDetails =?, relatedActionPoint = ?, 
+                                    notes = ?, followupDate = ?, createdOn = ?, lastUpdated = ? 
+                                    where agendaItemID = ?`,
+                    [req.body.minuteID, req.body.itemDetails, req.body.actionID, req.body.notes, req.body.followupDate, req.body.timestamp, req.body.timestamp, req.body.agendaItemID],
+                    function (err) {
                     if (err) {
                         console.log("error updating agendaItems" + err.message);
                         res.send({error: err.message})
                     }
                     console.log(`A row has been updated in agendaItems with rowid ${this.lastID}`);
                     closeDB(db);
-
                 });
             });
         });
@@ -122,7 +115,7 @@ app.post("/login", (req, res) => {
 
     let db = openDB();
     let sql = `SELECT * FROM users
-           WHERE username LIKE (?) AND password = (?)`;
+           WHERE username = (?) AND password = (?)`;
 
     db.all(sql, [username, password], (err, result) => {
         if (err) {
@@ -139,10 +132,9 @@ app.post("/login", (req, res) => {
 app.post("/signup", (req, res) => {
     let username = req.body.username;
     let password = req.body.password;
-
     let db = openDB();
     let sql = `SELECT * FROM users
-           WHERE username LIKE (?) AND password = (?)`;
+           WHERE username = (?) AND password = (?)`;
 
     db.all(sql, [username, password], (err, result) => {
         if (err) {
@@ -151,7 +143,8 @@ app.post("/signup", (req, res) => {
         if (result.length === 1){
             res.send({userExists:true})
         } else {
-            db.run(`INSERT INTO users(username,password,createdOn,lastUpdated) VALUES(?,?,?,?)`, [req.body.username,req.body.password,req.body.createdOn,req.body.createdOn], function(err) {
+            db.run(`INSERT INTO users(username,password,createdOn,lastUpdated) VALUES(?,?,?,?)`,
+                [req.body.username,req.body.password,req.body.createdOn,req.body.createdOn], function(err) {
                 if (err) {
                     console.log(err.message);
                     res.send({error:err.message})
@@ -162,7 +155,8 @@ app.post("/signup", (req, res) => {
             });
         }
     });
-    closeDB(db);});
+    closeDB(db);
+});
 
 function openDB(){
     let db = new sqlite3.Database('./db/Database0.db', sqlite3.OPEN_READWRITE, (err) => {

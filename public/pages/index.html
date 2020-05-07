@@ -14,9 +14,9 @@
 			<label for="dateTime" >Date Time</label>
 			<input name="dateTime" id="dateTime" required>
 			<label for="location" >Location</label>
-			<input name="location" id="location" >
+			<input name="location" id="location" required >
 			<label for="attendees" >Attendees</label>
-			<input name="attendees" id="attendees" >
+			<input name="attendees" id="attendees" required>
 			<label for="committee" >Committee</label>
 			<input name="committee" id="committee" required>
 		</section>
@@ -32,7 +32,7 @@
 			<label for="relatedActionPoint" >Related Action Point ID</label>
 			<input name="relatedActionPoint" id="relatedActionPoint" >
 		</section>
-		<a name="addAgendaItem" id="addAgendaItem" class="button" href="#">Add Agenda Item</a>
+<!--		<a name="addAgendaItem" id="addAgendaItem" class="button" href="#">Add Agenda Item</a>-->
 		<section id="actionPoints">
 			<label for="actionPoint" >Action Point ID</label>
 			<input name="actionID" id="actionPoint" >
@@ -43,7 +43,7 @@
 			<label for="dueDate" >Due Date</label>
 			<input name="dueDate" id="dueDate" >
 		</section>
-		<a name="addActionPoint" id="addActionPoint" class="button" href="#"> Add Action Point</a>
+<!--		<a name="addActionPoint" id="addActionPoint" class="button" href="#"> Add Action Point</a>-->
 		<br>
 		<a id="saveButton" name="saveButton" href="#" class="button"> save </a>
 		<a id="loadButton" name="loadButton" href="#" class="button"> load </a>
@@ -61,14 +61,15 @@
 	</div>
 	<a name="showLoginModalButton" id="showLoginModalButton" class="button" href="#">Login</a>
 	<a name="showSignupModalButton" id="showSignupModalButton" class="button" href="#">Sign up</a>
+	<a name="logout" id="logout" class="button" href="#">Logout</a>
 		<div id="loginModal" class="modal">
 			<form class="loginModal-content animate" action="/login" method="post" name="loginForm" id="loginForm" >
 				<div class="container">
 					<label for="username"><b>Username</b></label>
-					<input type="text" placeholder="Enter Username" name="username" id="username"required>
+					<input type="text" placeholder="Enter Username" name="username" id="username" required>
 
 					<label for="password"><b>Password</b></label>
-					<input type="password" placeholder="Enter Password" name="password" id="password"required>
+					<input type="password" placeholder="Enter Password" name="password" id="password" required>
 					<a name="loginButton" id="loginButton" class="button" href="#">Login</a>
 					<label>
 						<input type="checkbox" checked="checked" name="remember" id="remember"> Remember me
